@@ -16,12 +16,34 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Daiku Interior Design',
-  description: 'Interior design services for home, office, and business',
+  metadataBase: new URL('https://www.daikuinterior.com'),
+  title: 'Daiku Design Interior & Exterior Pekanbaru',
+  description: 'Spesialis desain interior dan eksterior serta furniture berkualitas untuk rumah, kantor, dan usaha di Pekanbaru. Melayani Residential - Office - Commercial dengan design profesional.',
+  keywords: ['daiku interior', 'interior pekanbaru', 'design interior', 'furniture pekanbaru', 'interior design pekanbaru', 'jasa interior pekanbaru'],
+  openGraph: {
+    type: 'website',
+    title: 'Daiku Design Interior & Exterior Pekanbaru',
+    description: 'Spesialis desain interior dan eksterior serta furniture berkualitas untuk rumah, kantor, dan usaha di Pekanbaru',
+    url: 'https://www.daikuinterior.com',
+    siteName: 'Daiku Interior',
+    images: [
+      {
+        url: '/icons/logo.png',
+        width: 512,
+        height: 512,
+        alt: 'Daiku Interior Logo',
+      },
+    ],
+  },
   icons: {
-    icon: '/icons/logo.png',
-    apple: '/icons/logo.png',
+    icon: [
+      { url: '/icons/logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/logo.png', sizes: '16x16', type: 'image/png' }
+    ],
     shortcut: '/icons/logo.png',
+    apple: [
+      { url: '/icons/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
 };
 
@@ -31,12 +53,13 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" className={`${geistSans.variable} overflow-x-hidden`}>
+    <html lang="id" className={`${geistSans.variable} overflow-x-hidden`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/png" href="/icons/logo.png" />
-        <link rel="apple-touch-icon" href="/icons/logo.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/logo.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/logo.png" />
         <link rel="shortcut icon" type="image/png" href="/icons/logo.png" />
       </head>
       <body className="overflow-x-hidden">
