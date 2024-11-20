@@ -1,14 +1,72 @@
+"use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts } from '../../data/blogPosts';
+import { useEffect, useState } from 'react';
+
+interface Blog {
+  id: string;
+  judul: string;
+  keterangan: string;
+  gambar: string;
+  createdAt: string;
+}
 
 export function Hero() {
+  const [latestBlogs, setLatestBlogs] = useState<Blog[]>([]);
+
   const handleGetStarted = () => {
     window.open('https://wa.me/+628117597766', '_blank');
   };
 
-  const latestBlogPosts = blogPosts.slice(0, 3);
+  // Fallback blog data
+  const fallbackBlogs = [
+    {
+      id: 'cm3lrfev500025nxhj17wboyj',
+      judul: 'Desain Interior Modern',
+      keterangan: 'Desain interior modern untuk rumah anda',
+      gambar: '/blog/modern.jpg',
+      createdAt: '2024-11-17'
+    },
+    {
+      id: 'cm3lrj8nd00035nxhd3uj05wl',
+      judul: 'Kostum Sesuai Keinginan',
+      keterangan: 'Kostum sesuai keinginan anda',
+      gambar: '/blog/kostum.jpg',
+      createdAt: '2024-11-17'
+    },
+    {
+      id: 'cm3lrlpm000045nxhldmz6i1k',
+      judul: 'Desain Interior Minimalis',
+      keterangan: 'Desain interior minimalis modern',
+      gambar: '/blog/minimalis.jpg',
+      createdAt: '2024-11-17'
+    }
+  ];
 
+  useEffect(() => {
+    const fetchLatestBlogs = async () => {
+      try {
+        const response = await fetch('/api/blog');
+        if (response.ok) {
+          const blogs = await response.json();
+          const sortedBlogs = blogs
+            .sort((a: Blog, b: Blog) => 
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            )
+            .slice(0, 3);
+          setLatestBlogs(sortedBlogs.length > 0 ? sortedBlogs : fallbackBlogs);
+        } else {
+          setLatestBlogs(fallbackBlogs);
+        }
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        setLatestBlogs(fallbackBlogs);
+      }
+    };
+
+    fetchLatestBlogs();
+  }, []);
+  
   return (
     <section className="pt-16 min-h-[800px] w-full relative overflow-hidden">
       <div className="absolute top-20 left-8 text-sm text-gray-600">
@@ -18,7 +76,6 @@ export function Hero() {
       <div className="max-w-[1920px] h-full mx-auto px-4 sm:px-8 py-12">
         {/* Mobile Images */}
         <div className="lg:hidden w-full relative h-[400px] mb-8">
-          {/* Single Mobile Image */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[85%] h-[400px] rounded-3xl overflow-hidden border-4 border-white">
             <Image
               src="/hero/1.jpg"
@@ -31,27 +88,27 @@ export function Hero() {
         </div>
 
         {/* Mini Blog Posts Section - Mobile Only */}
-        <div className="block lg:hidden space-y-2 w-[250px] mb-8 ml-4">
-          {latestBlogPosts.map((post) => (
+        <div className="block lg:hidden space-y-1.5 w-[280px] mb-8 ml-4">
+          {latestBlogs.map((post) => (
             <Link 
               key={post.id}
-              href={`/blog/${post.slug}`}
-              className="flex items-center space-x-3 p-1.5 hover:bg-gray-50 rounded-lg transition-colors group bg-white/80 backdrop-blur-sm"
+              href={`https://www.daikuinterior.com/blog/${post.id}`}
+              className="flex items-center space-x-2 p-1.5 hover:bg-gray-50 rounded-lg transition-colors group bg-white/80 backdrop-blur-sm"
             >
-              <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src={post.coverImage}
-                  alt={post.title}
+                  src={post.gambar}
+                  alt={post.judul}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
-              <div className="flex-1 min-w-0 max-w-[180px]">
-                <h3 className="font-medium text-sm text-gray-900 group-hover:text-gray-600 transition-colors truncate">
-                  {post.title}
+              <div className="flex-1 min-w-0 max-w-[220px]">
+                <h3 className="font-medium text-sm text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-1">
+                  {post.judul}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  {new Date(post.date).toLocaleDateString('id-ID', { 
+                  {new Date(post.createdAt).toLocaleDateString('id-ID', { 
                     month: 'long',
                     year: 'numeric'
                   })}
@@ -69,8 +126,9 @@ export function Hero() {
           ))}
         </div>
 
+        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-          {/* Left Column - Text Content */}
+          {/* Left Column */}
           <div className="space-y-5 lg:mt-32">
             <h1 className="text-3xl lg:text-5xl font-bold leading-tight max-w-xl">
               PROFESSIONAL INTERIOR DESIGN & BUILDING SOLUTION
@@ -97,9 +155,8 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Column - Desktop Images (hidden on mobile) */}
+          {/* Right Column - Desktop Images */}
           <div className="hidden lg:block relative w-full h-[600px] -ml-32">
-            {/* Gambar Utama (Gambar 1) */}
             <div className="absolute -top-8 left-0 w-[400px] h-[600px] rounded-3xl overflow-hidden border-4 border-white">
               <Image
                 src="/hero/1.jpg"
@@ -110,7 +167,6 @@ export function Hero() {
               />
             </div>
 
-            {/* Gambar Overlay (Gambar 2) */}
             <div className="absolute top-16 right-0 w-[400px] h-[200px] rounded-2xl overflow-hidden border-4 border-white">
               <Image
                 src="/hero/2.jpg"
@@ -124,27 +180,27 @@ export function Hero() {
         </div>
 
         {/* Mini Blog Posts Section - Desktop Only */}
-        <div className="hidden lg:block lg:absolute lg:bottom-32 lg:right-32 lg:w-[250px] space-y-2">
-          {latestBlogPosts.map((post) => (
+        <div className="hidden lg:block lg:absolute lg:bottom-32 lg:right-40 lg:w-[280px] space-y-1.5">
+          {latestBlogs.map((post) => (
             <Link 
               key={post.id}
-              href={`/blog/${post.slug}`}
-              className="flex items-center space-x-3 p-1.5 hover:bg-gray-50 rounded-lg transition-colors group bg-white/80 backdrop-blur-sm"
+              href={`https://www.daikuinterior.com/blog/${post.id}`}
+              className="flex items-center space-x-2 p-1.5 hover:bg-gray-50 rounded-lg transition-colors group bg-white/80 backdrop-blur-sm"
             >
-              <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                 <Image
-                  src={post.coverImage}
-                  alt={post.title}
+                  src={post.gambar}
+                  alt={post.judul}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
-              <div className="flex-1 min-w-0 max-w-[180px]">
-                <h3 className="font-medium text-sm text-gray-900 group-hover:text-gray-600 transition-colors truncate">
-                  {post.title}
+              <div className="flex-1 min-w-0 max-w-[220px]">
+                <h3 className="font-medium text-sm text-gray-900 group-hover:text-gray-600 transition-colors line-clamp-1">
+                  {post.judul}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  {new Date(post.date).toLocaleDateString('id-ID', { 
+                  {new Date(post.createdAt).toLocaleDateString('id-ID', { 
                     month: 'long',
                     year: 'numeric'
                   })}
