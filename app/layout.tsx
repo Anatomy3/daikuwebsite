@@ -19,7 +19,9 @@ export const metadata: Metadata = {
   title: 'Daiku Interior Design',
   description: 'Interior design services for home, office, and business',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icons/logo.png',
+    apple: '/icons/logo.png',
+    shortcut: '/icons/logo.png',
   },
 };
 
@@ -33,7 +35,9 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/icons/logo.png" />
+        <link rel="apple-touch-icon" href="/icons/logo.png" />
+        <link rel="shortcut icon" type="image/png" href="/icons/logo.png" />
       </head>
       <body className="overflow-x-hidden">
         <AuthProvider>
