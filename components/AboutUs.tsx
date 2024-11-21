@@ -17,7 +17,7 @@ export function AboutUs() {
             <span className="text-orange-400">Interior & Eksterior</span>
           </h1>
           <p className="text-lg md:text-2xl text-gray-600">
-            CV. INDOCRAF ASIA
+            Daiku Interior & Exterior Pekanbaru
           </p>
         </div>
         {/* Image section */}
