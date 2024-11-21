@@ -32,18 +32,33 @@ export const metadata: Metadata = {
         width: 512,
         height: 512,
         alt: 'Daiku Interior Logo',
+        type: 'image/png',
       },
     ],
   },
   icons: {
     icon: [
+      { url: '/icons/logo.png', sizes: '512x512', type: 'image/png' },
+      { url: '/icons/logo.png', sizes: '96x96', type: 'image/png' },
       { url: '/icons/logo.png', sizes: '32x32', type: 'image/png' },
       { url: '/icons/logo.png', sizes: '16x16', type: 'image/png' }
     ],
-    shortcut: '/icons/logo.png',
+    shortcut: { url: '/icons/logo.png', sizes: '512x512', type: 'image/png' },
     apple: [
+      { url: '/icons/logo.png', sizes: '512x512', type: 'image/png' },
       { url: '/icons/logo.png', sizes: '180x180', type: 'image/png' },
     ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -57,10 +72,16 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/logo.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/icons/logo.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/logo.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/logo.png" />
+        <link rel="apple-touch-icon" sizes="512x512" href="/icons/logo.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/logo.png" />
-        <link rel="shortcut icon" type="image/png" href="/icons/logo.png" />
+        <link rel="shortcut icon" type="image/png" sizes="512x512" href="/icons/logo.png" />
+        <meta property="og:image:width" content="512" />
+        <meta property="og:image:height" content="512" />
+        <meta property="og:image:type" content="image/png" />
       </head>
       <body className="overflow-x-hidden">
         <AuthProvider>
