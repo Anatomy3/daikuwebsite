@@ -96,8 +96,11 @@ export function Hero() {
               src="/hero/1.jpg"
               alt="Interior Design"
               fill
+              sizes="(max-width: 768px) 85vw"
+              quality={90}
+              priority={true}
+              loading="eager"
               className="object-cover"
-              priority
             />
           </div>
         </div>
@@ -115,6 +118,7 @@ export function Hero() {
                   src={post.gambar}
                   alt={post.judul}
                   fill
+                  sizes="40px"
                   className="object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
@@ -223,8 +227,11 @@ export function Hero() {
                 src="/hero/1.jpg"
                 alt="Interior Design"
                 fill
+                sizes="(min-width: 1024px) 400px"
+                quality={90}
+                priority={true}
+                loading="eager"
                 className="object-cover"
-                priority
               />
             </div>
 
@@ -233,10 +240,12 @@ export function Hero() {
                 src="/hero/2.jpg"
                 alt="Scandinavian Design"
                 fill
+                sizes="(min-width: 1024px) 400px"
+                quality={85}
+                loading="lazy"
                 className="object-cover"
-                priority
               />
-            </div>
+              </div>
           </div>
         </div>
 
@@ -253,6 +262,8 @@ export function Hero() {
                   src={post.gambar}
                   alt={post.judul}
                   fill
+                  sizes="40px"
+                  loading="lazy"
                   className="object-cover group-hover:scale-105 transition-transform"
                 />
               </div>
